@@ -20,6 +20,7 @@ import io.rapid.rapido.ui.filter.FilterViewModel;
 import io.rapid.rapido.ui.list.item.TaskItemHandler;
 import io.rapid.rapido.ui.list.item.TaskItemViewModel;
 import io.rapid.rapido.ui.list.item.TaskListAdapter;
+import io.rapid.rapido.util.DemoUtils;
 
 
 /**
@@ -36,14 +37,13 @@ public class TaskListViewModel implements TaskItemHandler, FilterViewModel.OnFil
 	private FilterState mFilterState;
 	private Set<String> mFilterTags;
 	private RapidCollectionSubscription mSubscription;
-	private RapidCollectionReference<Task> mTasksReference;
 	private TaskListView mView;
 
 
 	@Override
 	public void deleteTask(String id) {
 		// delete task from collection and handle error properly
-		mTasksReference.document(id).delete()
+		getTasksReference().document(id).delete()
 				.onError(error -> mView.showToast(error.getMessage()));
 	}
 
@@ -53,10 +53,10 @@ public class TaskListViewModel implements TaskItemHandler, FilterViewModel.OnFil
 		RapidDocumentReference<Task> doc;
 		if(id != null) {
 			// we are updating existing document
-			doc = mTasksReference.document(id);
+			doc = getTasksReference().document(id);
 		} else {
 			// we are creating new document
-			doc = mTasksReference.newDocument();
+			doc = getTasksReference().newDocument();
 			task.setCreatedAt(new Date());
 		}
 
@@ -89,14 +89,16 @@ public class TaskListViewModel implements TaskItemHandler, FilterViewModel.OnFil
 	public void initialize(TaskListView view) {
 		mView = view;
 
-		// authorize Rapid instance with authorization token
-		Rapid.getInstance().authorize(Config.RAPID_AUTH_TOKEN);
-
 		// add connection state listener to indicate current state in the UI
 		Rapid.getInstance().addConnectionStateListener(connectionState::set);
 
+	}
+
+
+	private RapidCollectionReference<Task> getTasksReference() {
 		// get task collection reference and provide backing class for serialization/deserialization
-		mTasksReference = Rapid.getInstance().collection(Config.RAPID_TODO_COLLECTION_NAME, Task.class);
+		String collectionName = DemoUtils.checkCollectionName(Config.RAPID_TODO_COLLECTION_NAME);
+		return Rapid.getInstance().collection(collectionName, Task.class);
 	}
 
 
@@ -129,9 +131,12 @@ public class TaskListViewModel implements TaskItemHandler, FilterViewModel.OnFil
 	private void subscribe() {
 		// if search query is not empty - add it as a filter
 		// we'll require that search query is part of Task's title or description
+
+		RapidCollectionReference<Task> tasksReference = getTasksReference();
+
 		String query = searchQuery.get();
 		if(query != null && !query.isEmpty()) {
-			mTasksReference.beginOr()
+			tasksReference.beginOr()
 					.contains("title", query)
 					.contains("description", query)
 					.endOr();
@@ -141,18 +146,18 @@ public class TaskListViewModel implements TaskItemHandler, FilterViewModel.OnFil
 		// let's use arrayContains() method which checks if array property contains desired String
 		if(mFilterTags != null) {
 			for(String tag : mFilterTags) {
-				mTasksReference.arrayContains("tags", tag);
+				tasksReference.arrayContains("tags", tag);
 			}
 		}
 
 		// if we want to display only tasks with specific state - add it as a filter
 		if(mFilterState == FilterState.DONE)
-			mTasksReference.equalTo("done", true);
+			tasksReference.equalTo("done", true);
 		else if(mFilterState == FilterState.NOT_DONE)
-			mTasksReference.equalTo("done", false);
+			tasksReference.equalTo("done", false);
 
 		// finally, subscribe to the filtered collection
-		mSubscription = mTasksReference
+		mSubscription = tasksReference
 				.orderBy(mOrderProperty, mOrderSorting) // order by specified property using specified sorting
 				.map(document -> new TaskItemViewModel(document, this)) // wrap each RapidDocument by ItemViewModel so we can use it in our list
 				.subscribe(items -> { // subscribe with list updates so we can properly animate our RecyclerView

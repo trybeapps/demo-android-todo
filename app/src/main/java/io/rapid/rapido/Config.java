@@ -6,16 +6,11 @@ public class Config {
 	// ==============
 	// DEMO CLIENT ID
 	// REPLACE THIS VALUE WITH YOUR CLIENT ID OBTAINED ON http://rapid.io
-	public static final String RAPID_DEMO_CLIENT_ID = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9";
+	public static final String RAPID_DEMO_CLIENT_ID = "90b00978-ef0d-34ee-9290-127c2ea1b638";
 	// ==============
 
 	/**
 	 * Collection name based on Demo Client ID
 	 */
-	public static final String RAPID_TODO_COLLECTION_NAME = "demoapp-" + RAPID_DEMO_CLIENT_ID;
-
-	/**
-	 * Rapid.io Authorization token allowing unlimited access to collections named `demoapp-.*`
-	 */
-	public static final String RAPID_AUTH_TOKEN = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJydWxlcyI6W3siY29sbGVjdGlvbiI6ImRlbW9hcHAtLioiLCJyZWFkIjp0cnVlLCJjcmVhdGUiOnRydWUsInVwZGF0ZSI6dHJ1ZSwiZGVsZXRlIjp0cnVlfV19.9e1b1eT1cfoxz7QqydF0eiFRiFP6qvHRHsqHxJ_ymuo";
+	public static final String RAPID_TODO_COLLECTION_NAME = "rapido-" + RAPID_DEMO_CLIENT_ID;
 }
