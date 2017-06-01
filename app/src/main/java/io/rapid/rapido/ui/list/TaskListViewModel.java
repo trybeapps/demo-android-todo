@@ -129,11 +129,10 @@ public class TaskListViewModel implements TaskItemHandler, FilterViewModel.OnFil
 
 
 	private void subscribe() {
-		// if search query is not empty - add it as a filter
-		// we'll require that search query is part of Task's title or description
-
 		RapidCollectionReference<Task> tasksReference = getTasksReference();
 
+		// if search query is not empty - add it as a filter
+		// we'll require that search query is part of Task's title or description
 		String query = searchQuery.get();
 		if(query != null && !query.isEmpty()) {
 			tasksReference.beginOr()
