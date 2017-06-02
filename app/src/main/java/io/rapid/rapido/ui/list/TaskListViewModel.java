@@ -1,6 +1,7 @@
 package io.rapid.rapido.ui.list;
 
 
+import android.databinding.Observable;
 import android.databinding.ObservableBoolean;
 import android.databinding.ObservableField;
 
@@ -92,13 +93,15 @@ public class TaskListViewModel implements TaskItemHandler, FilterViewModel.OnFil
 		// add connection state listener to indicate current state in the UI
 		Rapid.getInstance().addConnectionStateListener(connectionState::set);
 
-	}
-
-
-	private RapidCollectionReference<Task> getTasksReference() {
-		// get task collection reference and provide backing class for serialization/deserialization
-		String collectionName = DemoUtils.checkCollectionName(Config.RAPID_TODO_COLLECTION_NAME);
-		return Rapid.getInstance().collection(collectionName, Task.class);
+		searchQuery.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
+			@Override
+			public void onPropertyChanged(Observable sender, int propertyId) {
+				if(mSubscription != null) {
+					unsubscribe();
+					subscribe();
+				}
+			}
+		});
 	}
 
 
@@ -120,6 +123,13 @@ public class TaskListViewModel implements TaskItemHandler, FilterViewModel.OnFil
 	public void deleteTaskAtPosition(int position) {
 		TaskItemViewModel taskToDelete = taskListAdapter.getItems().get(position);
 		deleteTask(taskToDelete.getId());
+	}
+
+
+	private RapidCollectionReference<Task> getTasksReference() {
+		// get task collection reference and provide backing class for serialization/deserialization
+		String collectionName = DemoUtils.checkCollectionName(Config.RAPID_TODO_COLLECTION_NAME);
+		return Rapid.getInstance().collection(collectionName, Task.class);
 	}
 
 
