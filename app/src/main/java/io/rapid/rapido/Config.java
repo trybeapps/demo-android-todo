@@ -4,13 +4,8 @@ package io.rapid.rapido;
 public class Config {
 
 	// ==============
-	// DEMO CLIENT ID
-	// REPLACE THIS VALUE WITH YOUR CLIENT ID OBTAINED ON http://rapid.io
-	public static final String RAPID_DEMO_CLIENT_ID = "<DEMO-CLIENT-ID-PLACEHOLDER>";
+	// DEMO COLLECTION NAME
+	// REPLACE THIS VALUE WITH YOUR UNIQUE COLLECTION_NAME OBTAINED ON http://rapid.io
+	public static final String RAPID_TODO_COLLECTION_NAME = "<DEMO-COLLECTION-NAME-PLACEHOLDER>";
 	// ==============
-
-	/**
-	 * Collection name based on Demo Client ID
-	 */
-	public static final String RAPID_TODO_COLLECTION_NAME = "rapido-" + RAPID_DEMO_CLIENT_ID;
 }

@@ -9,10 +9,10 @@ of [Rapid.io Android SDK](https://github.com/Rapid-SDK/android)
 
 ## Instructions
 
-1. Visit [http://www.rapid.io/demo](http://www.rapid.io/demo) and obtain a unique demo client ID which you can use
+1. Visit [http://www.rapid.io/demo](http://www.rapid.io/demo) and obtain a unique demo collection name which you can use
 within your own build of this app
 2. Clone this repository or download it as a [ZIP](https://github.com/Rapid-SDK/rapido-android/archive/master.zip)
-3. Edit `Config.java` file and replace `RAPID_DEMO_CLIENT_ID` value with your client ID
+3. Edit `Config.java` file and replace `RAPID_TODO_COLLECTION_NAME` value with your collection name
 4. Build and run the sample
 
 ## Credits
