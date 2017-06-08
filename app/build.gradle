@@ -30,7 +30,7 @@ android {
 
 dependencies {
 
-	compile "io.rapid:rapid-sdk-android:0.1.1-alpha"
+	compile "io.rapid:rapid-sdk-android:0.2.1-alpha"
 
 	// Android Support Libraries
 	def supportLibraryVersion = "25.3.1"
