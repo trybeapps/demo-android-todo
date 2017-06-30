@@ -115,8 +115,8 @@ public class TaskListViewModel implements TaskItemHandler, FilterViewModel.OnFil
 	public void onViewDetached() {
 		// view (Activity) was detached - unsubscribe
 		// this will be called when the Activity goes into background - we don't want to keep the connection to Rapid.io then
-		Rapid.getInstance().removeAllConnectionStateListeners();
-		unsubscribe();
+//		Rapid.getInstance().removeAllConnectionStateListeners();
+//		unsubscribe();
 	}
 
 

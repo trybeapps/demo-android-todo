@@ -28,9 +28,9 @@ public class Tag {
 	 */
 	public static List<Tag> getAllTags() {
 		return Arrays.asList(
-				new Tag("home", Color.parseColor("#F44336")),
-				new Tag("work", Color.parseColor("#795548")),
-				new Tag("other", Color.parseColor("#FFC107"))
+				new Tag("home", Color.parseColor("#3F91EB")),
+				new Tag("work", Color.parseColor("#CF4647")),
+				new Tag("other", Color.parseColor("#85D95B"))
 		);
 	}
 
